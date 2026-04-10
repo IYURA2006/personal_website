@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#1a0f2e">
+<title>Yurii OS — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="boot"><div class="apple">&#63743;</div><div class="bar"><i></i></div></div>
+
+<div id="desktop">
+
+  <div id="menubar">
+    <span class="apple">&#63743;</span>
+    <span class="active" id="activeApp">Finder</span>
+    <div class="items">
+      <span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span>
+    </div>
+    <div class="right">
+      <span class="hide-sm">&#9728;</span>
+      <span class="hide-sm">&#128268;</span>
+      <span id="clock">—</span>
+    </div>
+  </div>
+
+  <div id="deskicons">
+    <div class="deskicon" data-app="about"><div class="img ic-text">&#9998;</div><div class="lbl">About Me</div></div>
+    <div class="deskicon" data-app="projects"><div class="img ic-finder">&#128193;</div><div class="lbl">Projects</div></div>
+    <div class="deskicon" data-app="resume"><div class="img ic-resume">&#128209;</div><div class="lbl">Resume</div></div>
+    <div class="deskicon" data-app="contact"><div class="img ic-mail">&#9993;</div><div class="lbl">Contact</div></div>
+  </div>
+
+  <div id="windows"></div>
+
+  <div id="dock-wrap">
+    <div id="dock">
+      <div class="dockitem ic-finder" data-app="projects"><span>&#128193;</span><div class="tip">Finder</div><div class="dot"></div></div>
+      <div class="dockitem ic-text" data-app="about"><span>&#9998;</span><div class="tip">About Me</div><div class="dot"></div></div>
+      <div class="dockitem ic-term" data-app="terminal"><span>&gt;_</span><div class="tip">Terminal</div><div class="dot"></div></div>
+      <div class="dockitem ic-resume" data-app="resume"><span>&#128209;</span><div class="tip">Resume</div><div class="dot"></div></div>
+      <div class="dockitem ic-mail" data-app="contact"><span>&#9993;</span><div class="tip">Contact</div><div class="dot"></div></div>
+      <div class="dockitem ic-github" data-app="github"><span>&#128187;</span><div class="tip">GitHub</div><div class="dot"></div></div>
+      <div class="divider"></div>
+      <div class="dockitem ic-trash"><span>&#128465;</span><div class="tip">Trash</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

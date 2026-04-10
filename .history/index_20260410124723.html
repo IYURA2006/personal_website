@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yurii OS — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+html,body{height:100%;overflow:hidden;font-family:var(--font);color:#fff;user-select:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+#desktop{
+  position:fixed;inset:0;
+  background:
+    radial-gradient(1200px 800px at 80% 10%, #ff7a59 0%, transparent 55%),
+    radial-gradient(900px 700px at 15% 20%, #7b4bff 0%, transparent 60%),
+    radial-gradient(1000px 800px at 50% 100%, #00b3ff 0%, transparent 55%),
+    linear-gradient(160deg,#1a0f2e 0%, #2b0a3d 40%, #06122e 100%);
+  overflow:hidden;
+}
+#desktop::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.08;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+#menubar{
+  position:fixed;top:0;left:0;right:0;height:28px;z-index:9999;
+  display:flex;align-items:center;padding:0 14px;gap:18px;font-size:13px;
+  background:rgba(20,18,30,.55);backdrop-filter:blur(22px) saturate(180%);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+#menubar .apple{font-size:15px}
+#menubar .active{font-weight:600}
+#menubar .items{display:flex;gap:16px;font-weight:500;opacity:.9}
+#menubar .right{margin-left:auto;display:flex;gap:14px;align-items:center;font-variant-numeric:tabular-nums}
+
+#deskicons{position:absolute;top:48px;right:24px;display:flex;flex-direction:column;gap:22px}
+.deskicon{width:84px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;border-radius:8px;padding:6px;transition:background .15s}
+.deskicon:hover{background:rgba(255,255,255,.08)}
+.deskicon.sel{background:rgba(80,140,255,.35);outline:1px solid rgba(255,255,255,.3)}
+.deskicon .img{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 8px 24px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25)}
+.deskicon .lbl{font-size:12px;text-shadow:0 1px 3px rgba(0,0,0,.8);text-align:center}
+
+.win{
+  position:absolute;min-width:380px;min-height:240px;
+  background:rgba(30,28,40,.78);backdrop-filter:blur(30px) saturate(180%);
+  -webkit-backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 0 .5px rgba(0,0,0,.4);
+  display:flex;flex-direction:column;transform-origin:center bottom;
+  animation:winOpen .42s cubic-bezier(.2,1.2,.3,1);
+}
+@keyframes winOpen{0%{opacity:0;transform:scale(.85) translateY(40px)}100%{opacity:1;transform:none}}
+.win.closing{animation:winClose .25s ease forwards}
+@keyframes winClose{to{opacity:0;transform:scale(.9) translateY(20px)}}
+.win.minimizing{animation:winMin .35s ease forwards}
+@keyframes winMin{to{opacity:0;transform:scale(.2) translateY(60vh)}}
+.titlebar{height:36px;display:flex;align-items:center;padding:0 12px;gap:8px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);cursor:grab}
+.titlebar:active{cursor:grabbing}
+.lights{display:flex;gap:8px}
+.light{width:13px;height:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(0,0,0,.55);font-weight:700}
+.light.r{background:#ff5f57;border:.5px solid #e0443e}
+.light.y{background:#febc2e;border:.5px solid #d89e1f}
+.light.g{background:#28c840;border:.5px solid #1aaa2c}
+.light span{opacity:0}
+.lights:hover .light span{opacity:1}
+.title{flex:1;text-align:center;font-size:13px;font-weight:600;opacity:.9}
+.win .body{flex:1;overflow:auto;color:#eee;font-size:14px}
+
+.finder{display:flex;height:100%}
+.finder .side{width:160px;background:rgba(0,0,0,.18);border-right:1px solid rgba(255,255,255,.06);padding:14px 10px;font-size:12px}
+.finder .side h4{font-size:10px;text-transform:uppercase;opacity:.5;margin:10px 6px 6px;letter-spacing:.05em}
+.finder .side a{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;color:#fff;cursor:pointer}
+.finder .side a:hover{background:rgba(255,255,255,.08)}
+.finder .side a.act{background:rgba(80,140,255,.4)}
+.finder .main{flex:1;padding:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px;align-content:start}
+.pcard{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px;border-radius:8px;cursor:pointer}
+.pcard:hover{background:rgba(255,255,255,.06)}
+.pcard .ic{width:74px;height:90px;border-radius:6px;background:linear-gradient(160deg,#fff,#cfd6e4);display:flex;align-items:center;justify-content:center;font-size:36px;color:#222;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.pcard .nm{font-size:12px;text-align:center}
+.pcard .meta{font-size:10px;opacity:.5}
+
+.textedit{padding:34px 50px;background:#fdfdfa;color:#1a1a1a;height:100%;font-family:"Inter",var(--font);font-size:14.5px;line-height:1.7}
+.textedit h1{font-family:"Iowan Old Style",Georgia,serif;font-size:28px;margin-bottom:6px}
+.textedit .sub{color:#888;font-size:13px;margin-bottom:24px}
+.textedit p{margin-bottom:14px}
+.textedit em{color:#c0392b}
+
+.terminal{background:rgba(10,8,16,.92);height:100%;font-family:var(--mono);font-size:13px;color:#d6d6d6;padding:14px;overflow:auto}
+.terminal .line{white-space:pre-wrap;word-break:break-word}
+.terminal .prompt{color:#5af78e}
+.terminal .path{color:#57c7ff}
+.terminal .err{color:#ff5c57}
+.terminal .ok{color:#f3f99d}
+.terminal .input-row{display:flex;gap:6px;align-items:center}
+.terminal input{background:none;border:none;color:#d6d6d6;font:inherit;flex:1;outline:none;caret-color:#5af78e}
+
+.resume{padding:30px 40px;background:#f4f1ea;color:#161616;height:100%;font-family:Georgia,"Iowan Old Style",serif}
+.resume h1{font-size:32px}
+.resume .role{font-style:italic;color:#666;margin-bottom:18px}
+.resume h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;border-bottom:1px solid #c8c2b3;padding-bottom:4px;margin:20px 0 10px;color:#444;font-family:var(--font);font-weight:700}
+.resume .item{margin-bottom:12px;font-size:13.5px;line-height:1.55}
+.resume .item b{display:block}
+.resume .item span{color:#888;font-size:12px;font-style:italic}
+.resume .skills{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--font);font-size:11px}
+.resume .skills span{background:#1a1a1a;color:#fff;padding:3px 9px;border-radius:3px}
+
+.contact{padding:30px;height:100%;display:flex;flex-direction:column;gap:14px}
+.contact h2{font-size:22px;font-weight:600}
+.contact a.row{display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#fff;text-decoration:none;transition:all .2s}
+.contact a.row:hover{background:rgba(255,255,255,.1);transform:translateX(4px)}
+.contact a.row .ic{font-size:24px}
+.contact a.row b{display:block;font-size:14px}
+.contact a.row span{font-size:12px;opacity:.6}
+
+#dock{
+  position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:9000;
+  display:flex;align-items:flex-end;gap:6px;padding:8px 10px;
+  background:rgba(40,38,55,.55);backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
+  border:1px solid rgba(255,255,255,.15);border-radius:20px;
+  box-shadow:0 18px 60px rgba(0,0,0,.5);
+}
+.dockitem{
+  position:relative;width:52px;height:52px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;
+  transition:transform .18s cubic-bezier(.2,1.4,.4,1);transform-origin:center bottom;
+  box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.dockitem .dot{position:absolute;bottom:-8px;width:4px;height:4px;border-radius:50%;background:#fff;opacity:0;transition:opacity .2s}
+.dockitem.run .dot{opacity:.85}
+.dockitem .tip{position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(6px);background:rgba(20,18,30,.9);backdrop-filter:blur(20px);padding:5px 10px;border-radius:6px;font-size:12px;white-space:nowrap;border:1px solid rgba(255,255,255,.1);opacity:0;pointer-events:none;transition:all .15s}
+.dockitem:hover .tip{opacity:1;transform:translateX(-50%) translateY(0)}
+.divider{width:1px;height:36px;background:rgba(255,255,255,.18);margin:0 4px;align-self:center}
+
+.ic-finder{background:linear-gradient(160deg,#3aa6ff,#0a5fc7)}
+.ic-text{background:linear-gradient(160deg,#fff,#d8d4c8);color:#222}
+.ic-term{background:linear-gradient(160deg,#2a2a2a,#000);color:#0f0}
+.ic-resume{background:linear-gradient(160deg,#f4e4bc,#c89d4a);color:#3a2510}
+.ic-mail{background:linear-gradient(160deg,#5fb3ff,#0866d3)}
+.ic-safari{background:linear-gradient(160deg,#e6f3ff,#2980d6);color:#fff}
+.ic-trash{background:linear-gradient(160deg,rgba(255,255,255,.3),rgba(255,255,255,.1))}
+
+#boot{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:99999;color:#fff}
+#boot .apple{font-size:64px}
+#boot .bar{width:200px;height:4px;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden}
+#boot .bar i{display:block;height:100%;width:0;background:#fff;animation:load 1.8s ease forwards}
+@keyframes load{to{width:100%}}
+#boot.gone{opacity:0;pointer-events:none;transition:opacity .5s}
+</style>
+</head>
+<body>
+
+<div id="boot"><div class="apple">&#63743;</div><div class="bar"><i></i></div></div>
+
+<div id="desktop">
+  <div id="menubar">
+    <span class="apple">&#63743;</span>
+    <span class="active" id="activeApp">Finder</span>
+    <div class="items"><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span></div>
+    <div class="right"><span>&#9728;</span><span>&#128268;</span><span id="clock">—</span></div>
+  </div>
+
+  <div id="deskicons">
+    <div class="deskicon" data-app="about"><div class="img ic-text">&#9998;</div><div class="lbl">About Me</div></div>
+    <div class="deskicon" data-app="projects"><div class="img ic-finder">&#128193;</div><div class="lbl">Projects</div></div>
+    <div class="deskicon" data-app="resume"><div class="img ic-resume">&#128209;</div><div class="lbl">Resume</div></div>
+    <div class="deskicon" data-app="contact"><div class="img ic-mail">&#9993;</div><div class="lbl">Contact</div></div>
+  </div>
+
+  <div id="windows"></div>
+
+  <div id="dock">
+    <div class="dockitem ic-finder" data-app="projects"><span>&#128193;</span><div class="tip">Finder</div><div class="dot"></div></div>
+    <div class="dockitem ic-text" data-app="about"><span>&#9998;</span><div class="tip">About Me</div><div class="dot"></div></div>
+    <div class="dockitem ic-term" data-app="terminal"><span>&gt;_</span><div class="tip">Terminal</div><div class="dot"></div></div>
+    <div class="dockitem ic-resume" data-app="resume"><span>&#128209;</span><div class="tip">Resume</div><div class="dot"></div></div>
+    <div class="dockitem ic-mail" data-app="contact"><span>&#9993;</span><div class="tip">Contact</div><div class="dot"></div></div>
+    <div class="dockitem ic-safari" data-app="github"><span>&#127760;</span><div class="tip">GitHub</div><div class="dot"></div></div>
+    <div class="divider"></div>
+    <div class="dockitem ic-trash"><span>&#128465;</span><div class="tip">Trash</div></div>
+  </div>
+</div>
+
+<script>
+const APPS = {
+  projects: {
+    title:"Projects — Finder", w:760, h:480,
+    render: () => `
+      <div class="finder">
+        <div class="side">
+          <h4>Favourites</h4>
+          <a class="act">&#128193; Projects</a>
+          <a>&#9201; Recents</a>
+          <a>&#11088; Starred</a>
+          <h4>Locations</h4>
+          <a>&#128187; Yurii's Mac</a>
+          <a>&#9729; iCloud</a>
+          <h4>Tags</h4>
+          <a>&#128308; AI</a>
+          <a>&#128993; Web</a>
+          <a>&#128994; Finance</a>
+        </div>
+        <div class="main">
+          ${[
+            {n:"AI Terminal",e:"🤖",m:"1st place"},
+            {n:"SEC Parser",e:"📊",m:"Python"},
+            {n:"Food Order App",e:"🍔",m:"Full-stack"},
+            {n:"Study Tutor",e:"📚",m:"LLM-powered"},
+            {n:"Portfolio OS",e:"💻",m:"This site"},
+            {n:"More soon…",e:"✨",m:""},
+          ].map(p=>`<div class="pcard"><div class="ic">${p.e}</div><div class="nm">${p.n}</div><div class="meta">${p.m}</div></div>`).join("")}
+        </div>
+      </div>`
+  },
+  about: {
+    title:"About Me.rtf — TextEdit", w:560, h:520,
+    render: () => `
+      <div class="textedit">
+        <h1>About Me</h1>
+        <div class="sub">~/Documents/about.rtf · modified just now</div>
+        <p>Hi — I'm <b>Yurii Ilnytskyi</b>, a Computer Science student at the University of Edinburgh.</p>
+        <p>I care about the unglamorous gap between <em>"it ran in the demo"</em> and <em>"it works in production."</em> Most of the things I build start because something annoyed me into building them.</p>
+        <p>Last year I won first place at the Huawei hackathon for an AI terminal. The night after, instead of celebrating, I stayed up reading papers — because I realised I had no idea whether what I built would still hold together next Tuesday. Closing that gap is the work I want to do.</p>
+        <p>Right now I'm interested in LLM evaluation, agents that survive contact with reality, and frontends that feel like real software instead of templates.</p>
+        <p style="opacity:.5;font-size:12px;margin-top:30px">— double-click any icon on the desktop to explore.</p>
+      </div>`
+  },
+  terminal: {
+    title:"yurii@macbook — -zsh", w:620, h:380,
+    render: () => `
+      <div class="terminal" id="termBody">
+        <div class="line"><span class="ok">Last login: ${new Date().toDateString()} on ttys001</span></div>
+        <div class="line">Welcome to <span class="ok">yurii-os</span>. Type <span class="ok">help</span> to get started.</div>
+        <div id="termOut"></div>
+        <div class="input-row" id="termRow">
+          <span class="prompt">yurii@macbook</span><span class="path">~</span><span class="prompt">$</span>
+          <input id="termInput" autocomplete="off" spellcheck="false">
+        </div>
+      </div>`,
+    onMount: (root) => {
+      const out = root.querySelector("#termOut");
+      const inp = root.querySelector("#termInput");
+      const body = root.querySelector("#termBody");
+      const print = (html, cls="") => { const d=document.createElement("div"); d.className="line "+cls; d.innerHTML=html; out.appendChild(d); body.scrollTop=body.scrollHeight; };
+      const echoCmd = (c) => print(`<span class="prompt">yurii@macbook</span><span class="path">~</span><span class="prompt">$</span> ${c}`);
+      const cmds = {
+        help:()=>print("available: <span class='ok'>about, ls, projects, skills, stack, contact, whoami, sudo, neofetch, clear, exit</span>"),
+        about:()=>print("Yurii Ilnytskyi · CS @ University of Edinburgh · builds things that actually work."),
+        whoami:()=>print("yurii"),
+        ls:()=>print("about.rtf  projects/  resume.pdf  contact.vcf  .secrets"),
+        projects:()=>print("• AI Terminal  (1st place, Huawei Hackathon)\n• SEC Filing Parser\n• Food Ordering App\n• Study Tutor\n• Portfolio OS  ← you are here"),
+        skills:()=>print("python · typescript · react · node · fastapi · postgres · docker · llm-eval · linux"),
+        stack:()=>cmds.skills(),
+        contact:()=>print("email: hello@example.com\ngithub: github.com/yurii\nlinkedin: linkedin.com/in/yurii"),
+        sudo:()=>print("yurii is not in the sudoers file. This incident will be reported.","err"),
+        neofetch:()=>print(
+`<span class="ok">         yurii@macbook</span>
+         --------------
+<span class="path">OS</span>:       yurii-os 1.0
+<span class="path">Host</span>:     MacBook Portfolio
+<span class="path">Kernel</span>:   javascript-vanilla
+<span class="path">Uptime</span>:   ${(performance.now()/1000).toFixed(0)}s
+<span class="path">Shell</span>:    zsh 5.9
+<span class="path">Editor</span>:   vim (obviously)
+<span class="path">Coffee</span>:   ☕☕☕`),
+        clear:()=>{out.innerHTML="";},
+        exit:()=>closeApp("terminal"),
+      };
+      inp.addEventListener("keydown", e=>{
+        if(e.key==="Enter"){
+          const v=inp.value.trim(); inp.value="";
+          if(!v) return;
+          echoCmd(v);
+          const fn = cmds[v.split(" ")[0]];
+          if(fn) fn();
+          else print(`zsh: command not found: ${v}`,"err");
+        }
+      });
+      setTimeout(()=>inp.focus(),50);
+    }
+  },
+  resume: {
+    title:"Yurii_Ilnytskyi_CV.pdf — Preview", w:600, h:600,
+    render: () => `
+      <div class="resume">
+        <h1>Yurii Ilnytskyi</h1>
+        <div class="role">Computer Science · University of Edinburgh · Cumbernauld, UK</div>
+        <h2>Experience</h2>
+        <div class="item"><b>Huawei Hackathon — Team Lead <span>· 2025 · 🥇 1st place</span></b>Led a small team to first place. Built an AI terminal that translates natural language into safe shell operations.</div>
+        <div class="item"><b>Citadel · Quant Programme <span>· 2024</span></b>Selected for a competitive quantitative programme. Studied how serious teams reason about correctness, latency and risk.</div>
+        <div class="item"><b>Softjourn · Software Intern <span>· 2023</span></b>Shipped production features. Learned why code review exists.</div>
+        <h2>Education</h2>
+        <div class="item"><b>BSc Computer Science <span>· University of Edinburgh · 2024 – present</span></b>Algorithms, data structures, machine learning, systems.</div>
+        <h2>Selected Projects</h2>
+        <div class="item"><b>AI Terminal</b>Natural-language CLI wrapper with safety checks. Hackathon winner.</div>
+        <div class="item"><b>SEC Filing Parser</b>Pipeline that turns messy SEC filings into structured financial data.</div>
+        <div class="item"><b>Food Ordering App</b>End-to-end mobile ordering — menu, cart, payments, tracking.</div>
+        <h2>Skills</h2>
+        <div class="skills">
+          <span>Python</span><span>TypeScript</span><span>React</span><span>Node</span><span>FastAPI</span>
+          <span>PostgreSQL</span><span>Docker</span><span>Git</span><span>LLM APIs</span><span>Linux</span>
+        </div>
+      </div>`
+  },
+  contact: {
+    title:"Contact", w:440, h:420,
+    render: () => `
+      <div class="contact">
+        <h2>Let's talk</h2>
+        <a class="row" href="mailto:hello@example.com"><span class="ic">📧</span><div><b>Email</b><span>hello@example.com</span></div></a>
+        <a class="row" href="#"><span class="ic">🐙</span><div><b>GitHub</b><span>github.com/yurii</span></div></a>
+        <a class="row" href="#"><span class="ic">💼</span><div><b>LinkedIn</b><span>linkedin.com/in/yurii</span></div></a>
+        <a class="row" href="#"><span class="ic">📍</span><div><b>Location</b><span>Edinburgh, Scotland</span></div></a>
+      </div>`
+  },
+  github: {
+    title:"github.com — Safari", w:680, h:440,
+    render: () => `<div style="padding:40px;text-align:center;color:#fff"><div style="font-size:60px">🐙</div><h2 style="margin-top:14px">GitHub</h2><p style="opacity:.6;margin-top:8px">Wire this up to your real github URL.</p></div>`
+  }
+};
+
+let zTop = 100;
+const openWindows = {};
+const windowsRoot = document.getElementById("windows");
+
+function openApp(id){
+  if(openWindows[id]){ focusApp(id); return; }
+  const app = APPS[id]; if(!app) return;
+  const el = document.createElement("div");
+  el.className = "win"; el.dataset.id = id;
+  const w = app.w, h = app.h;
+  const x = Math.max(20, Math.round(window.innerWidth/2 - w/2 + (Math.random()*60-30)));
+  const y = Math.max(40, Math.round(window.innerHeight/2 - h/2 + (Math.random()*40-20)));
+  el.style.left = x+"px"; el.style.top = y+"px"; el.style.width = w+"px"; el.style.height = h+"px";
+  el.innerHTML = `
+    <div class="titlebar">
+      <div class="lights">
+        <button class="light r" data-act="close"><span>×</span></button>
+        <button class="light y" data-act="min"><span>−</span></button>
+        <button class="light g" data-act="max"><span>+</span></button>
+      </div>
+      <div class="title">${app.title}</div>
+      <div style="width:52px"></div>
+    </div>
+    <div class="body">${app.render()}</div>`;
+  windowsRoot.appendChild(el);
+  openWindows[id] = {el, app};
+  focusApp(id);
+  makeDraggable(el);
+  el.addEventListener("mousedown", ()=>focusApp(id));
+  el.querySelectorAll(".light").forEach(b=>{
+    b.addEventListener("click", e=>{
+      e.stopPropagation();
+      const a=b.dataset.act;
+      if(a==="close") closeApp(id);
+      else if(a==="min") minimizeApp(id);
+      else if(a==="max") toggleMax(id);
+    });
+  });
+  if(app.onMount) app.onMount(el);
+  document.querySelector(`.dockitem[data-app="${id}"]`)?.classList.add("run");
+}
+
+function focusApp(id){
+  zTop++;
+  openWindows[id].el.style.zIndex = zTop;
+  document.getElementById("activeApp").textContent = APPS[id].title.split(" — ")[1] || APPS[id].title;
+}
+
+function closeApp(id){
+  const w = openWindows[id]; if(!w) return;
+  w.el.classList.add("closing");
+  setTimeout(()=>{
+    w.el.remove(); delete openWindows[id];
+    document.querySelector(`.dockitem[data-app="${id}"]`)?.classList.remove("run");
+  },240);
+}
+function minimizeApp(id){
+  const w = openWindows[id]; if(!w) return;
+  w.el.classList.add("minimizing");
+  setTimeout(()=>{ w.el.remove(); delete openWindows[id]; document.querySelector(`.dockitem[data-app="${id}"]`)?.classList.remove("run"); },340);
+}
+function toggleMax(id){
+  const el = openWindows[id].el;
+  if(el.dataset.max){
+    el.style.left=el.dataset.ox; el.style.top=el.dataset.oy;
+    el.style.width=el.dataset.ow; el.style.height=el.dataset.oh;
+    delete el.dataset.max;
+  } else {
+    el.dataset.ox=el.style.left; el.dataset.oy=el.style.top;
+    el.dataset.ow=el.style.width; el.dataset.oh=el.style.height;
+    el.style.left="10px"; el.style.top="38px";
+    el.style.width=(window.innerWidth-20)+"px";
+    el.style.height=(window.innerHeight-110)+"px";
+    el.dataset.max="1";
+  }
+}
+
+function makeDraggable(el){
+  const bar = el.querySelector(".titlebar");
+  let sx,sy,ox,oy,drag=false;
+  bar.addEventListener("mousedown",e=>{
+    if(e.target.closest(".light")) return;
+    drag=true; sx=e.clientX; sy=e.clientY;
+    ox=parseInt(el.style.left); oy=parseInt(el.style.top);
+    e.preventDefault();
+  });
+  window.addEventListener("mousemove",e=>{
+    if(!drag) return;
+    el.style.left=(ox+e.clientX-sx)+"px";
+    el.style.top=Math.max(30,oy+e.clientY-sy)+"px";
+  });
+  window.addEventListener("mouseup",()=>drag=false);
+}
+
+const dock = document.getElementById("dock");
+const items = [...dock.querySelectorAll(".dockitem")];
+dock.addEventListener("mousemove", e=>{
+  const mx = e.clientX;
+  items.forEach(it=>{
+    const ir = it.getBoundingClientRect();
+    const center = ir.left + ir.width/2;
+    const d = Math.abs(mx-center);
+    const max = 110;
+    const scale = d>max ? 1 : 1 + (1-d/max)*0.7;
+    const lift = d>max ? 0 : -(1-d/max)*10;
+    it.style.transform = `scale(${scale}) translateY(${lift}px)`;
+  });
+});
+dock.addEventListener("mouseleave", ()=>{ items.forEach(it=>it.style.transform=""); });
+
+items.forEach(it=>{
+  const app = it.dataset.app;
+  if(app) it.addEventListener("click", ()=>openApp(app));
+});
+document.querySelectorAll(".deskicon").forEach(d=>{
+  d.addEventListener("click", ()=>{
+    document.querySelectorAll(".deskicon").forEach(x=>x.classList.remove("sel"));
+    d.classList.add("sel");
+  });
+  d.addEventListener("dblclick", ()=>openApp(d.dataset.app));
+});
+document.getElementById("desktop").addEventListener("click", e=>{
+  if(e.target.id==="desktop") document.querySelectorAll(".deskicon").forEach(x=>x.classList.remove("sel"));
+});
+
+function tick(){
+  const d=new Date();
+  const opts={weekday:"short",day:"numeric",month:"short"};
+  document.getElementById("clock").textContent =
+    d.toLocaleDateString(undefined,opts)+" "+d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+}
+tick(); setInterval(tick,1000*30);
+
+setTimeout(()=>{
+  document.getElementById("boot").classList.add("gone");
+  setTimeout(()=>{
+    openApp("about");
+    setTimeout(()=>openApp("projects"),350);
+  },500);
+}, 1900);
+</script>
+</body>
+</html>

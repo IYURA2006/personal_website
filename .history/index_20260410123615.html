@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yurii Ilnytskyi — Building things that actually work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300;9..144,400;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2ede4;
+  --ink:#15130f;
+  --accent:#ff3b15;
+  --muted:#6b6557;
+  --rule:#15130f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"JetBrains Mono",ui-monospace,monospace;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:100;mix-blend-mode:multiply;opacity:.18;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+a{color:inherit;text-decoration:none}
+.serif{font-family:"Fraunces",serif;font-optical-sizing:auto;font-variation-settings:"SOFT" 30}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid var(--ink);text-transform:uppercase;letter-spacing:.08em;font-size:11px}
+.top .dot{display:inline-block;width:9px;height:9px;background:var(--accent);border-radius:50%;margin-right:8px;vertical-align:middle;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.top nav a{margin-left:22px;position:relative}
+.top nav a:hover{color:var(--accent)}
+
+/* marquee */
+.marquee{border-bottom:1px solid var(--ink);overflow:hidden;background:var(--ink);color:var(--bg)}
+.marquee-track{display:flex;gap:48px;white-space:nowrap;padding:10px 0;font-family:"Fraunces",serif;font-style:italic;font-size:18px;animation:slide 28s linear infinite}
+.marquee-track span::after{content:"✦";margin-left:48px;color:var(--accent);font-style:normal}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* hero */
+.hero{padding:60px 28px 40px;border-bottom:1px solid var(--ink);position:relative}
+.hero .meta{display:flex;justify-content:space-between;text-transform:uppercase;letter-spacing:.1em;font-size:10px;color:var(--muted);margin-bottom:40px}
+.hero h1{font-family:"Fraunces",serif;font-weight:300;font-size:clamp(56px,11vw,180px);line-height:.86;letter-spacing:-.04em}
+.hero h1 .it{font-style:italic;font-weight:400}
+.hero h1 .red{color:var(--accent)}
+.hero .row{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:50px;align-items:end}
+.hero .lede{font-family:"Fraunces",serif;font-size:22px;line-height:1.35;max-width:34ch;font-weight:400}
+.hero .lede::first-letter{font-size:3em;float:left;line-height:.85;padding:6px 10px 0 0;font-weight:700;color:var(--accent)}
+.hero .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid var(--ink);padding-top:18px}
+.hero .stats div b{font-family:"Fraunces",serif;font-size:42px;font-weight:300;display:block;line-height:1}
+.hero .stats div span{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+
+/* section header */
+.sec{border-bottom:1px solid var(--ink);padding:48px 28px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;text-transform:uppercase;font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:32px}
+.sec-head .num{font-family:"Fraunces",serif;font-style:italic;font-size:14px;color:var(--ink)}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 2fr;gap:40px}
+.about p{font-family:"Fraunces",serif;font-size:20px;line-height:1.5;max-width:60ch}
+.about p + p{margin-top:18px}
+
+/* projects */
+.proj{display:grid;grid-template-columns:60px 1.2fr 2fr 100px;gap:24px;align-items:start;padding:28px 0;border-top:1px dashed var(--ink);transition:padding .35s,background .35s}
+.proj:first-of-type{border-top:1px solid var(--ink)}
+.proj:hover{background:var(--ink);color:var(--bg);padding-left:18px;padding-right:18px}
+.proj:hover .pn{color:var(--accent)}
+.proj .pn{font-family:"Fraunces",serif;font-style:italic;font-size:24px;color:var(--muted);transition:color .3s}
+.proj h3{font-family:"Fraunces",serif;font-weight:400;font-size:34px;line-height:1;letter-spacing:-.02em}
+.proj h3 em{color:var(--accent)}
+.proj .tag{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:8px}
+.proj:hover .tag{color:var(--bg)}
+.proj p{font-size:13px;max-width:48ch}
+.proj .yr{font-family:"Fraunces",serif;font-style:italic;font-size:18px;text-align:right}
+
+/* experience */
+.xp{display:grid;grid-template-columns:1fr 2fr 1fr;gap:24px;padding:22px 0;border-top:1px solid var(--ink)}
+.xp:last-of-type{border-bottom:1px solid var(--ink)}
+.xp .role{font-family:"Fraunces",serif;font-size:24px;line-height:1.1}
+.xp .role span{display:block;font-size:11px;font-family:"JetBrains Mono",monospace;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+.xp p{font-size:13px}
+.xp .when{text-align:right;font-family:"Fraunces",serif;font-style:italic;font-size:18px}
+
+/* skills */
+.skills{display:flex;flex-wrap:wrap;gap:10px}
+.skills span{border:1px solid var(--ink);padding:8px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;border-radius:999px;transition:all .25s}
+.skills span:hover{background:var(--accent);color:var(--bg);border-color:var(--accent);transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--ink)}
+
+/* contact */
+.contact{padding:80px 28px 40px;text-align:center;position:relative;overflow:hidden}
+.contact h2{font-family:"Fraunces",serif;font-weight:300;font-style:italic;font-size:clamp(48px,10vw,140px);line-height:.9;letter-spacing:-.03em}
+.contact h2 a{border-bottom:3px solid var(--accent);transition:color .3s}
+.contact h2 a:hover{color:var(--accent)}
+.contact .links{margin-top:36px;display:flex;gap:32px;justify-content:center;text-transform:uppercase;font-size:11px;letter-spacing:.12em}
+.contact .links a{border-bottom:1px solid var(--ink);padding-bottom:3px}
+.contact .links a:hover{color:var(--accent);border-color:var(--accent)}
+
+footer{border-top:1px solid var(--ink);padding:18px 28px;display:flex;justify-content:space-between;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:780px){
+  .hero .row,.about{grid-template-columns:1fr}
+  .proj{grid-template-columns:1fr;gap:8px}
+  .proj .yr{text-align:left}
+  .xp{grid-template-columns:1fr}
+  .xp .when{text-align:left}
+  .top nav a{margin-left:14px}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div><span class="dot"></span>Available · Summer 2026</div>
+  <div class="serif" style="font-style:italic;font-size:13px">Yurii Ilnytskyi</div>
+  <nav>
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#say">Contact</a>
+  </nav>
+</div>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Building software that survives contact with reality</span>
+    <span>Edinburgh → everywhere</span>
+    <span>First place, Huawei Hackathon 2025</span>
+    <span>Currently obsessed with LLM evaluation</span>
+    <span>Building software that survives contact with reality</span>
+    <span>Edinburgh → everywhere</span>
+    <span>First place, Huawei Hackathon 2025</span>
+    <span>Currently obsessed with LLM evaluation</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="meta">
+    <span>Portfolio / MMXXVI</span>
+    <span>Vol. 01 — Issue Nº 1</span>
+    <span>Cumbernauld → Edinburgh</span>
+  </div>
+  <h1 class="serif rv">
+    Builds things<br>
+    that <span class="it">actually</span><br>
+    <span class="red it">work.</span>
+  </h1>
+  <div class="row rv">
+    <p class="lede serif">Computer Science student at the University of Edinburgh. I care about the unglamorous gap between <em>“it ran in the demo”</em> and <em>“it works in production.”</em></p>
+    <div class="stats">
+      <div><b>1st</b><span>Huawei Hackathon</span></div>
+      <div><b>3</b><span>Internships</span></div>
+      <div><b>∞</b><span>Late nights debugging</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="about">
+  <div class="sec-head"><span>§ 01 — A short note</span><span class="num">i.</span></div>
+  <div class="about rv">
+    <h2 class="serif" style="font-size:46px;font-weight:300;line-height:1;font-style:italic">About,<br>briefly.</h2>
+    <div>
+      <p class="serif">I’m a second-year CS student who gets pulled toward the unsexy parts of building software — the testing, the evaluation, the bit where you find out whether the thing you made is actually any good.</p>
+      <p class="serif">Last year I won first place at the Huawei hackathon for an AI terminal. The night after, instead of celebrating, I stayed up reading papers — because I realised I had no idea whether what I built would still work next Tuesday. Closing that gap is the work I want to do.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="work">
+  <div class="sec-head"><span>§ 02 — Selected work</span><span class="num">ii.</span></div>
+
+  <div class="proj rv">
+    <div class="pn">01</div>
+    <div>
+      <h3 class="serif">AI <em>Terminal</em></h3>
+      <div class="tag">Hackathon · 1st place</div>
+    </div>
+    <p>A natural-language command-line wrapper that translates plain English into shell operations with safety checks before execution. Won first place at the Huawei hackathon out of dozens of teams.</p>
+    <div class="yr serif">’25</div>
+  </div>
+
+  <div class="proj rv">
+    <div class="pn">02</div>
+    <div>
+      <h3 class="serif">SEC <em>Filing</em> Parser</h3>
+      <div class="tag">Finance · Data</div>
+    </div>
+    <p>A pipeline that ingests messy SEC filings, extracts structured financial data, and surfaces the figures analysts actually care about — without the boilerplate noise.</p>
+    <div class="yr serif">’25</div>
+  </div>
+
+  <div class="proj rv">
+    <div class="pn">03</div>
+    <div>
+      <h3 class="serif">Food <em>Ordering</em> App</h3>
+      <div class="tag">Mobile · Full-stack</div>
+    </div>
+    <p>End-to-end ordering experience built from scratch — menu, cart, payments, order tracking. Designed the data model and shipped the UI.</p>
+    <div class="yr serif">’24</div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><span>§ 03 — Where I’ve been</span><span class="num">iii.</span></div>
+
+  <div class="xp rv">
+    <div class="role serif">Huawei <span>Hackathon — Team Lead</span></div>
+    <p>Led a small team to first place. Owned the AI integration layer and the demo narrative. Learned that what wins isn’t the cleverest model — it’s the clearest story.</p>
+    <div class="when">2025</div>
+  </div>
+
+  <div class="xp rv">
+    <div class="role serif">Citadel <span>Programme</span></div>
+    <p>Selected for a quantitative programme. Picked up how serious engineering teams think about correctness, latency, and risk under real money.</p>
+    <div class="when">2024</div>
+  </div>
+
+  <div class="xp rv">
+    <div class="role serif">Softjourn <span>Software Intern</span></div>
+    <p>First taste of production code. Shipped real features, broke real things, learned why code review exists.</p>
+    <div class="when">2023</div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><span>§ 04 — Tools of the trade</span><span class="num">iv.</span></div>
+  <div class="skills rv">
+    <span>Python</span><span>TypeScript</span><span>React</span><span>Angular</span>
+    <span>Node</span><span>FastAPI</span><span>PostgreSQL</span><span>Docker</span>
+    <span>Git</span><span>LLM APIs</span><span>Prompt eval</span><span>Linux</span>
+    <span>Power Platform</span><span>SharePoint</span><span>Figma</span>
+  </div>
+</section>
+
+<section class="contact" id="say">
+  <div class="sec-head" style="border:none;padding:0 0 28px"><span>§ 05 — Get in touch</span><span class="num">v.</span></div>
+  <h2 class="serif rv">Let’s build<br>something <a href="mailto:hello@example.com">honest</a>.</h2>
+  <div class="links rv">
+    <a href="mailto:hello@example.com">Email</a>
+    <a href="#">GitHub</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">CV / PDF</a>
+  </div>
+</section>
+
+<footer>
+  <span>© Yurii Ilnytskyi · MMXXVI</span>
+  <span class="serif" style="font-style:italic">Set in Fraunces & JetBrains Mono</span>
+  <span>Made in Edinburgh</span>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+:root{
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:var(--font);color:#fff;user-select:none;overscroll-behavior:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+/* ============ Wallpaper ============ */
+#desktop{
+  position:fixed;inset:0;
+  background:
+    radial-gradient(1200px 800px at 80% 10%, #ff7a59 0%, transparent 55%),
+    radial-gradient(900px 700px at 15% 20%, #7b4bff 0%, transparent 60%),
+    radial-gradient(1000px 800px at 50% 100%, #00b3ff 0%, transparent 55%),
+    linear-gradient(160deg,#1a0f2e 0%, #2b0a3d 40%, #06122e 100%);
+  overflow:hidden;
+}
+#desktop::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.08;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* ============ Menu bar ============ */
+#menubar{
+  position:fixed;top:0;left:0;right:0;height:28px;z-index:9999;
+  display:flex;align-items:center;padding:0 14px;gap:18px;font-size:13px;
+  background:rgba(20,18,30,.55);
+  backdrop-filter:blur(22px) saturate(180%);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+#menubar .apple{font-size:15px}
+#menubar .active{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:50vw}
+#menubar .items{display:flex;gap:16px;font-weight:500;opacity:.9}
+#menubar .right{margin-left:auto;display:flex;gap:14px;align-items:center;font-variant-numeric:tabular-nums}
+
+/* ============ Desktop icons ============ */
+#deskicons{position:absolute;top:48px;right:24px;display:flex;flex-direction:column;gap:22px;z-index:10}
+.deskicon{
+  width:84px;display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;border-radius:8px;padding:6px;transition:background .15s;
+}
+.deskicon:hover{background:rgba(255,255,255,.08)}
+.deskicon.sel{background:rgba(80,140,255,.35);outline:1px solid rgba(255,255,255,.3)}
+.deskicon .img{
+  width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:30px;box-shadow:0 8px 24px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.deskicon .lbl{font-size:12px;text-shadow:0 1px 3px rgba(0,0,0,.8);text-align:center}
+
+/* ============ Windows ============ */
+.win{
+  position:absolute;min-width:340px;min-height:240px;
+  background:rgba(30,28,40,.78);
+  backdrop-filter:blur(30px) saturate(180%);
+  -webkit-backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 0 .5px rgba(0,0,0,.4);
+  display:flex;flex-direction:column;
+  transform-origin:center bottom;
+  animation:winOpen .42s cubic-bezier(.2,1.2,.3,1);
+}
+@keyframes winOpen{0%{opacity:0;transform:scale(.85) translateY(40px)}100%{opacity:1;transform:none}}
+.win.closing{animation:winClose .25s ease forwards}
+@keyframes winClose{to{opacity:0;transform:scale(.9) translateY(20px)}}
+.win.minimizing{animation:winMin .35s ease forwards}
+@keyframes winMin{to{opacity:0;transform:scale(.2) translateY(60vh)}}
+
+.titlebar{
+  height:36px;display:flex;align-items:center;padding:0 12px;gap:8px;flex-shrink:0;
+  background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);
+  cursor:grab;
+}
+.titlebar:active{cursor:grabbing}
+.lights{display:flex;gap:8px;flex-shrink:0}
+.light{width:13px;height:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(0,0,0,.55);font-weight:700}
+.light.r{background:#ff5f57;border:.5px solid #e0443e}
+.light.y{background:#febc2e;border:.5px solid #d89e1f}
+.light.g{background:#28c840;border:.5px solid #1aaa2c}
+.light span{opacity:0}
+.lights:hover .light span{opacity:1}
+.title{flex:1;text-align:center;font-size:13px;font-weight:600;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win .body{flex:1;overflow:auto;color:#eee;font-size:14px;-webkit-overflow-scrolling:touch}
+
+/* ============ Finder app ============ */
+.finder{display:flex;height:100%}
+.finder .side{width:160px;flex-shrink:0;background:rgba(0,0,0,.18);border-right:1px solid rgba(255,255,255,.06);padding:14px 10px;font-size:12px;overflow:auto}
+.finder .side h4{font-size:10px;text-transform:uppercase;opacity:.5;margin:10px 6px 6px;letter-spacing:.05em}
+.finder .side a{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;color:#fff;cursor:pointer}
+.finder .side a:hover{background:rgba(255,255,255,.08)}
+.finder .side a.act{background:rgba(80,140,255,.4)}
+.finder .main{flex:1;padding:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;align-content:start;overflow:auto}
+.pcard{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px;border-radius:8px;cursor:pointer;text-decoration:none;color:#fff}
+.pcard:hover{background:rgba(255,255,255,.06)}
+.pcard .ic{width:74px;height:90px;border-radius:6px;background:linear-gradient(160deg,#fff,#cfd6e4);display:flex;align-items:center;justify-content:center;font-size:36px;color:#222;box-shadow:0 6px 18px rgba(0,0,0,.4);position:relative}
+.pcard .nm{font-size:12px;text-align:center;font-weight:500}
+.pcard .meta{font-size:10px;opacity:.5;text-align:center}
+.pcard .badge{position:absolute;top:-4px;right:-4px;background:#ff3b30;color:#fff;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:600}
+
+/* ============ TextEdit ============ */
+.textedit{padding:34px 50px;background:#fdfdfa;color:#1a1a1a;min-height:100%;font-family:"Inter",var(--font);font-size:14.5px;line-height:1.7}
+.textedit h1{font-family:"Iowan Old Style",Georgia,serif;font-size:28px;margin-bottom:6px}
+.textedit .sub{color:#888;font-size:13px;margin-bottom:24px}
+.textedit p{margin-bottom:14px}
+.textedit em{color:#c0392b;font-style:normal;font-weight:600}
+.textedit .tags{margin-top:24px;display:flex;flex-wrap:wrap;gap:6px}
+.textedit .tags span{background:#1a1a1a;color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;font-family:var(--mono)}
+
+/* ============ Terminal ============ */
+.terminal{background:rgba(10,8,16,.92);min-height:100%;font-family:var(--mono);font-size:13px;color:#d6d6d6;padding:14px;overflow:auto}
+.terminal .line{white-space:pre-wrap;word-break:break-word;margin-bottom:2px}
+.terminal .prompt{color:#5af78e}
+.terminal .path{color:#57c7ff}
+.terminal .err{color:#ff5c57}
+.terminal .ok{color:#f3f99d}
+.terminal .input-row{display:flex;gap:6px;align-items:center;margin-top:4px}
+.terminal input{background:none;border:none;color:#d6d6d6;font:inherit;flex:1;outline:none;caret-color:#5af78e;min-width:0}
+
+/* ============ Resume ============ */
+.resume-pdf{width:100%;height:100%;border:none;background:#525659}
+.resume{padding:30px 40px;background:#f4f1ea;color:#161616;min-height:100%;font-family:Georgia,"Iowan Old Style",serif}
+.resume h1{font-size:32px;letter-spacing:-.01em}
+.resume .role{font-style:italic;color:#666;margin-bottom:18px}
+.resume h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;border-bottom:1px solid #c8c2b3;padding-bottom:4px;margin:20px 0 10px;color:#444;font-family:var(--font);font-weight:700}
+.resume .item{margin-bottom:12px;font-size:13.5px;line-height:1.55}
+.resume .item b{display:block}
+.resume .item span{color:#888;font-size:12px;font-style:italic}
+.resume .skills{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--font);font-size:11px}
+.resume .skills span{background:#1a1a1a;color:#fff;padding:3px 9px;border-radius:3px}
+
+/* ============ Contact ============ */
+.contact{padding:30px;min-height:100%;display:flex;flex-direction:column;gap:14px}
+.contact h2{font-size:22px;font-weight:600}
+.contact a.row{display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#fff;text-decoration:none;transition:all .2s}
+.contact a.row:hover{background:rgba(255,255,255,.1);transform:translateX(4px)}
+.contact a.row .ic{font-size:24px}
+.contact a.row b{display:block;font-size:14px}
+.contact a.row span{font-size:12px;opacity:.6}
+
+/* ============ GitHub app ============ */
+.gh{padding:0;height:100%;display:flex;flex-direction:column;background:#0d1117;color:#e6edf3;font-family:var(--font)}
+.gh .head{padding:20px 24px;border-bottom:1px solid #30363d;display:flex;gap:18px;align-items:center}
+.gh .head img{width:64px;height:64px;border-radius:50%;border:1px solid #30363d}
+.gh .head h2{font-size:20px;font-weight:600;margin-bottom:2px}
+.gh .head .login{color:#7d8590;font-size:13px}
+.gh .head .bio{color:#e6edf3;font-size:12px;margin-top:4px;max-width:340px}
+.gh .stats{display:flex;gap:16px;padding:12px 24px;border-bottom:1px solid #30363d;font-size:12px;color:#7d8590}
+.gh .stats b{color:#e6edf3;font-weight:600}
+.gh .repos{flex:1;overflow:auto;padding:12px 18px}
+.gh .repo{padding:14px;border:1px solid #30363d;border-radius:8px;margin-bottom:10px;transition:border-color .15s}
+.gh .repo:hover{border-color:#58a6ff}
+.gh .repo h3{font-size:14px;color:#58a6ff;font-weight:600;margin-bottom:4px}
+.gh .repo p{font-size:12px;color:#7d8590;margin-bottom:8px;line-height:1.45}
+.gh .repo .meta{display:flex;gap:14px;font-size:11px;color:#7d8590}
+.gh .repo .meta .lang{display:flex;align-items:center;gap:4px}
+.gh .repo .meta .dot{width:10px;height:10px;border-radius:50%;background:#3178c6}
+.gh .loading{padding:40px;text-align:center;color:#7d8590;font-size:13px}
+.gh .err{padding:30px;text-align:center;color:#f85149;font-size:13px}
+.gh .open-btn{display:inline-block;margin:14px 24px 18px;padding:8px 16px;background:#238636;color:#fff;border-radius:6px;font-size:12px;font-weight:600;text-align:center;border:1px solid #2ea043}
+.gh .open-btn:hover{background:#2ea043}
+
+/* ============ Dock ============ */
+#dock-wrap{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;padding-bottom:10px;z-index:9000;pointer-events:none}
+#dock{
+  display:flex;align-items:flex-end;gap:6px;padding:8px 10px;
+  background:rgba(40,38,55,.55);
+  backdrop-filter:blur(28px) saturate(180%);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);
+  border:1px solid rgba(255,255,255,.15);border-radius:20px;
+  box-shadow:0 18px 60px rgba(0,0,0,.5);
+  pointer-events:auto;max-width:calc(100vw - 20px);overflow-x:auto;
+  scrollbar-width:none;
+}
+#dock::-webkit-scrollbar{display:none}
+.dockitem{
+  position:relative;width:52px;height:52px;border-radius:13px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;
+  transition:transform .18s cubic-bezier(.2,1.4,.4,1);transform-origin:center bottom;
+  box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.dockitem .dot{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#fff;opacity:0;transition:opacity .2s}
+.dockitem.run .dot{opacity:.85}
+.dockitem .tip{
+  position:absolute;bottom:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(6px);
+  background:rgba(20,18,30,.9);backdrop-filter:blur(20px);
+  padding:5px 10px;border-radius:6px;font-size:12px;white-space:nowrap;
+  border:1px solid rgba(255,255,255,.1);opacity:0;pointer-events:none;transition:all .15s;
+}
+.dockitem:hover .tip{opacity:1;transform:translateX(-50%) translateY(0)}
+.divider{width:1px;height:36px;background:rgba(255,255,255,.18);margin:0 4px;align-self:center;flex-shrink:0}
+
+/* dock icon colors */
+.ic-finder{background:linear-gradient(160deg,#3aa6ff,#0a5fc7)}
+.ic-text{background:linear-gradient(160deg,#fff,#d8d4c8);color:#222}
+.ic-term{background:linear-gradient(160deg,#2a2a2a,#000);color:#0f0}
+.ic-resume{background:linear-gradient(160deg,#f4e4bc,#c89d4a);color:#3a2510}
+.ic-mail{background:linear-gradient(160deg,#5fb3ff,#0866d3)}
+.ic-github{background:linear-gradient(160deg,#2a2a2a,#0d1117);color:#fff}
+.ic-trash{background:linear-gradient(160deg,rgba(255,255,255,.3),rgba(255,255,255,.1))}
+
+/* ============ Boot ============ */
+#boot{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:99999;color:#fff}
+#boot .apple{font-size:64px}
+#boot .bar{width:200px;height:4px;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden}
+#boot .bar i{display:block;height:100%;width:0;background:#fff;animation:load 1.8s ease forwards}
+@keyframes load{to{width:100%}}
+#boot.gone{opacity:0;pointer-events:none;transition:opacity .5s}
+
+/* ============================================
+   MOBILE — windows go fullscreen, no dragging
+   ============================================ */
+@media (max-width:780px){
+  .hide-sm{display:none !important}
+  #menubar{padding:0 10px;gap:10px;font-size:12px}
+  #menubar .items{display:none}
+  #menubar .active{font-size:12px}
+
+  #deskicons{
+    top:auto;right:auto;left:0;right:0;bottom:90px;
+    flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px;padding:0 14px;
+  }
+  .deskicon{width:74px}
+  .deskicon .img{width:50px;height:50px;font-size:26px}
+
+  .win{
+    position:fixed !important;
+    top:28px !important;left:0 !important;right:0 !important;bottom:78px !important;
+    width:100vw !important;height:auto !important;
+    border-radius:0;border-left:none;border-right:none;border-bottom:none;
+    min-width:0;min-height:0;
+    animation:winOpenMobile .35s cubic-bezier(.2,1,.3,1);
+  }
+  @keyframes winOpenMobile{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+  .titlebar{cursor:default;height:42px}
+  .light{width:18px;height:18px}
+  .title{font-size:14px}
+
+  /* Finder: collapse sidebar */
+  .finder .side{display:none}
+  .finder .main{padding:14px;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+  .pcard .ic{width:64px;height:78px;font-size:30px}
+
+  .textedit{padding:24px 22px;font-size:15px}
+  .textedit h1{font-size:24px}
+
+  .resume{padding:22px 22px}
+  .resume h1{font-size:26px}
+
+  .contact{padding:20px}
+
+  .gh .head{padding:16px;flex-direction:column;text-align:center;gap:10px}
+  .gh .head .bio{max-width:none}
+  .gh .repos{padding:10px}
+
+  /* Dock */
+  #dock-wrap{padding-bottom:6px}
+  #dock{padding:6px 8px;gap:4px;border-radius:16px}
+  .dockitem{width:44px;height:44px;font-size:24px;border-radius:11px}
+  .dockitem .tip{display:none}
+  .divider{height:30px}
+}
+
+@media (max-width:400px){
+  .dockitem{width:40px;height:40px;font-size:22px}
+  .deskicon{width:64px}
+  #deskicons{bottom:78px}
+}
