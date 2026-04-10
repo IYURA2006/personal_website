@@ -6,21 +6,20 @@ const CONFIG = {
   GITHUB_URL:    "https://github.com/IYURA2006",
   LINKEDIN_URL:  "https://www.linkedin.com/in/yurii-ilnytskyi-113064227/",
   EMAIL:         "yurii@gmail.com",
-  CV_PDF:        "assets/cv.pdf",          
-  THRESHOLD_URL: "https://ease-ilnb.vercel.app/discover",
-  
+  CV_PDF:        "./cv.pdf",          
+  THRESHOLD_URL: "https://threshold-hackathon.example.com", // ← replace with real URL
 };
 
 const isMobile = window.matchMedia("(max-width:780px)").matches;
- 
+
 /* ============ App definitions ============ */
 const APPS = {
- 
+
   projects: {
     title:"Projects — Finder", w:780, h:500,
     render: () => {
       const items = [
-        {n:"AI Terminal",      e:"🤖", m:"1st place · Huawei",   url:"https://github.com/vsharha/samantha_oe", badge:"🥇"},
+        {n:"AI Terminal",      e:"🤖", m:"1st place · Huawei",   url:"#", badge:"🥇"},
         {n:"Threshold",        e:"♿",  m:"Accessible Fringe",    url:CONFIG.THRESHOLD_URL, badge:"NEW"},
         {n:"Food Order App",   e:"🍔", m:"Full-stack",            url:"#"},
         {n:"Portfolio OS",     e:"💻", m:"This site",             url:"#"},
@@ -53,48 +52,27 @@ const APPS = {
       </div>`;
     }
   },
- 
+
   about: {
     title:"About Me.rtf — TextEdit", w:580, h:560,
     render: () => `
-    <div class="textedit">
-      <h1>About Me</h1>
-      <div class="sub">~/Documents/about.rtf · modified just now</div>
-      
-      <p>
-        I’m <b>Yurii Ilnytskyi</b>, a second-year AI and Computer Science student at the University of Edinburgh, originally from Ukraine. 
-        Next year, I’ll be continuing my studies at <b>Caltech</b>.
-      </p>
+      <div class="textedit">
+        <h1>About Me</h1>
+        <div class="sub">~/Documents/about.rtf · modified just now</div>
+        <p>Hi — I'm <b>Yurii Ilnytskyi</b>, a Computer Science student at the University of Edinburgh.</p>
+        <p>I care about the unglamorous gap between <em>"it ran in the demo"</em> and <em>"it works in production."</em> Most of the things I build start because something annoyed me into building them.</p>
+        <p>Last year I won first place at the Huawei hackathon for an AI terminal. The night after, instead of celebrating, I stayed up reading papers — because I realised I had no idea whether what I built would still hold together next Tuesday. Closing that gap is the work I want to do.</p>
+        <p>Most recently I built <em>Threshold</em> at an accessible-fringe hackathon — a project focused on making the festival more navigable for people with access needs.</p>
+        <div class="tags">
+          <span>python</span><span>html</span><span>css</span><span>javascript</span>
+          <span>typescript</span><span>react</span><span>node</span><span>fastapi</span>
+          <span>postgres</span><span>docker</span><span>git</span><span>linux</span>
+          <span>llm-eval</span>
+        </div>
+        <p style="opacity:.5;font-size:12px;margin-top:24px">— double-tap any icon to explore.</p>
+      </div>`
+  },
 
-      <p>
-        I build systems at the intersection of AI and practical engineering. My interest lies in the often-ignored gap between a <em>"working demo"</em> and a <em>"production-ready system."</em> 
-        I care about reliability, data integrity, and the unglamorous work required to make LLMs actually useful in the real world.
-      </p>
-
-      <p>
-        Most of the things I build start because something annoyed me into opening a code editor. This mindset led me to win first place at the <b>Huawei openEuler Hackathon</b>, 
-        place in the top 10 at <b>Citadel’s Europe Terminal</b> competition, and ship production code as a front-end intern at <b>Softjourn</b>. 
-        Whether it's building data pipelines from scratch or integrating LLMs into existing infrastructures, I build to solve problems, not just to show off.
-      </p>
-
-      <p>
-        Recently, I built <em>Threshold</em>—a project from an accessible-fringe hackathon designed to help people with access needs navigate the Edinburgh Festival more effectively.
-      </p>
-
-      <p>
-        Outside of the terminal, I’m a 1500 Elo chess player, Junior Treasurer of the University's Ukrainian Society, and a squash player for the Informatics team.
-      </p>
-
-      <div class="tags">
-        <span>python</span><span>typescript</span><span>react</span><span>node</span>
-        <span>fastapi</span><span>postgres</span><span>docker</span><span>linux</span>
-        <span>llm-eval</span><span>git</span>
-      </div>
-      
-      <p style="opacity:.5;font-size:12px;margin-top:24px">— double-tap any icon to explore.</p>
-    </div>`
-    },
- 
   terminal: {
     title:"yurii@macbook — -zsh", w:640, h:400,
     render: () => `
@@ -122,7 +100,7 @@ const APPS = {
         about: () => print("Yurii Ilnytskyi · CS @ University of Edinburgh · builds things that actually work."),
         whoami: () => print("yurii"),
         ls: () => print("about.rtf  projects/  cv.pdf  contact.vcf  .secrets"),
-        projects: () => print("• AI Terminal      (1st place, Huawei Hackathon)\n• Threshold        (Accessible Fringe hackathon)\n• Food Ordering App\n• Study Tutor\n• Portfolio OS    ← you are here"),
+        projects: () => print("• AI Terminal      (1st place, Huawei Hackathon)\n• Threshold        (Accessible Fringe hackathon)\n• Food Ordering App\n•  Portfolio OS    ← you are here"),
         skills: () => print("python · html · css · javascript · typescript · react · node · fastapi · postgres · docker · linux"),
         contact: () => print(`email: ${CONFIG.EMAIL}\ngithub: ${CONFIG.GITHUB_URL}\nlinkedin: ${CONFIG.LINKEDIN_URL}`),
         github: () => { print("opening github.com…"); window.open(CONFIG.GITHUB_URL,"_blank"); },
@@ -154,12 +132,12 @@ const APPS = {
       setTimeout(() => inp.focus(), 50);
     }
   },
- 
+
   resume: {
     title:"Yurii_Ilnytskyi_CV.pdf — Preview", w:640, h:640,
     render: () => `
       <div style="height:100%;display:flex;flex-direction:column">
-        <iframe class="resume-pdf" src="${CONFIG.CV_PDF}" id="cvFrame"
+        <iframe class="resume-pdf" src="${CV_PDF}" id="cvFrame"
                 onerror="this.style.display='none'"></iframe>
       </div>`,
     onMount: (root) => {
@@ -174,16 +152,16 @@ const APPS = {
         <div class="resume">
           <h1>Yurii Ilnytskyi</h1>
           <div class="role">Computer Science · University of Edinburgh · Cumbernauld, UK</div>
- 
+
           <h2>Experience</h2>
           <div class="item"><b>Huawei Hackathon — Team Lead <span>· 2025 · 🥇 1st place</span></b>Led a small team to first place. Built an AI terminal that translates natural language into safe shell operations.</div>
           <div class="item"><b>Threshold — Accessible Fringe Hackathon <span>· 2025</span></b>Built a tool to make the Edinburgh Festival Fringe more navigable for people with access needs.</div>
           <div class="item"><b>Citadel · Quant Programme <span>· 2024</span></b>Selected for a competitive quantitative programme.</div>
           <div class="item"><b>Softjourn · Software Intern <span>· 2023</span></b>Shipped production features. Learned why code review exists.</div>
- 
+
           <h2>Education</h2>
           <div class="item"><b>BSc Computer Science <span>· University of Edinburgh · 2024 – present</span></b>Algorithms, data structures, machine learning, systems.</div>
- 
+
           <h2>Skills</h2>
           <div class="skills">
             <span>Python</span><span>HTML</span><span>CSS</span><span>JavaScript</span>
@@ -197,7 +175,7 @@ const APPS = {
       });
     }
   },
- 
+
   contact: {
     title:"Contact", w:460, h:440,
     render: () => `
@@ -209,7 +187,7 @@ const APPS = {
         <a class="row"><span class="ic">📍</span><div><b>Location</b><span>Cumbernauld → Edinburgh, Scotland</span></div></a>
       </div>`
   },
- 
+
   github: {
     title:"GitHub — Safari", w:680, h:520,
     render: () => `
@@ -266,12 +244,12 @@ const APPS = {
     }
   },
 };
- 
+
 /* ============ Window manager ============ */
 let zTop = 100;
 const openWindows = {};
 const windowsRoot = document.getElementById("windows");
- 
+
 function openApp(id){
   if (openWindows[id]) { focusApp(id); return; }
   const app = APPS[id]; if (!app) return;
@@ -312,7 +290,7 @@ function openApp(id){
   if (app.onMount) app.onMount(el);
   document.querySelector(`.dockitem[data-app="${id}"]`)?.classList.add("run");
 }
- 
+
 function focusApp(id){
   zTop++;
   openWindows[id].el.style.zIndex = zTop;
@@ -351,7 +329,7 @@ function toggleMax(id){
     el.dataset.max = "1";
   }
 }
- 
+
 function makeDraggable(el){
   const bar = el.querySelector(".titlebar");
   let sx, sy, ox, oy, drag = false;
@@ -368,11 +346,11 @@ function makeDraggable(el){
   });
   window.addEventListener("mouseup", () => drag = false);
 }
- 
+
 /* ============ Dock magnification (desktop only) ============ */
 const dock = document.getElementById("dock");
 const items = [...dock.querySelectorAll(".dockitem")];
- 
+
 if (!isMobile) {
   dock.addEventListener("mousemove", e => {
     const mx = e.clientX;
@@ -388,7 +366,7 @@ if (!isMobile) {
   });
   dock.addEventListener("mouseleave", () => items.forEach(it => it.style.transform = ""));
 }
- 
+
 /* ============ Wire up clicks ============ */
 items.forEach(it => {
   const app = it.dataset.app;
@@ -410,7 +388,7 @@ document.getElementById("desktop").addEventListener("click", e => {
   if (e.target.id === "desktop")
     document.querySelectorAll(".deskicon").forEach(x => x.classList.remove("sel"));
 });
- 
+
 /* ============ Clock ============ */
 function tick(){
   const d = new Date();
@@ -422,7 +400,7 @@ function tick(){
   document.getElementById("clock").textContent = date + time;
 }
 tick(); setInterval(tick, 1000 * 30);
- 
+
 /* ============ Boot ============ */
 setTimeout(() => {
   document.getElementById("boot").classList.add("gone");
@@ -431,4 +409,3 @@ setTimeout(() => {
     if (!isMobile) setTimeout(() => openApp("projects"), 350);
   }, 500);
 }, 1900);
- 

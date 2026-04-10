@@ -171,7 +171,7 @@ a{color:inherit;text-decoration:none}
 }
 #dock{
   display:flex;align-items:flex-end;gap:6px;
-  padding:10px 10px 8px;         /* ← extra top padding for magnified icons */
+  padding:38px 10px 8px;         /* ← extra top padding for magnified icons */
   margin-top:-30px;              /* ← pulled back so visually unchanged */
   background:rgba(40,38,55,.55);
   backdrop-filter:blur(28px) saturate(180%);
@@ -264,7 +264,7 @@ a{color:inherit;text-decoration:none}
   .gh .repos{padding:10px}
 
   /* Dock — re-enable horizontal scroll on mobile (no magnification here anyway) */
-  #dock-wrap{padding-bottom:6px}
+
   #dock{
     padding:6px 8px;gap:4px;border-radius:16px;
     margin-top:0;

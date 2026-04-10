@@ -57,43 +57,22 @@ const APPS = {
   about: {
     title:"About Me.rtf — TextEdit", w:580, h:560,
     render: () => `
-    <div class="textedit">
-      <h1>About Me</h1>
-      <div class="sub">~/Documents/about.rtf · modified just now</div>
-      
-      <p>
-        I’m <b>Yurii Ilnytskyi</b>, a second-year AI and Computer Science student at the University of Edinburgh, originally from Ukraine. 
-        Next year, I’ll be continuing my studies at <b>Caltech</b>.
-      </p>
-
-      <p>
-        I build systems at the intersection of AI and practical engineering. My interest lies in the often-ignored gap between a <em>"working demo"</em> and a <em>"production-ready system."</em> 
-        I care about reliability, data integrity, and the unglamorous work required to make LLMs actually useful in the real world.
-      </p>
-
-      <p>
-        Most of the things I build start because something annoyed me into opening a code editor. This mindset led me to win first place at the <b>Huawei openEuler Hackathon</b>, 
-        place in the top 10 at <b>Citadel’s Europe Terminal</b> competition, and ship production code as a front-end intern at <b>Softjourn</b>. 
-        Whether it's building data pipelines from scratch or integrating LLMs into existing infrastructures, I build to solve problems, not just to show off.
-      </p>
-
-      <p>
-        Recently, I built <em>Threshold</em>—a project from an accessible-fringe hackathon designed to help people with access needs navigate the Edinburgh Festival more effectively.
-      </p>
-
-      <p>
-        Outside of the terminal, I’m a 1500 Elo chess player, Junior Treasurer of the University's Ukrainian Society, and a squash player for the Informatics team.
-      </p>
-
-      <div class="tags">
-        <span>python</span><span>typescript</span><span>react</span><span>node</span>
-        <span>fastapi</span><span>postgres</span><span>docker</span><span>linux</span>
-        <span>llm-eval</span><span>git</span>
-      </div>
-      
-      <p style="opacity:.5;font-size:12px;margin-top:24px">— double-tap any icon to explore.</p>
-    </div>`
-    },
+      <div class="textedit">
+        <h1>About Me</h1>
+        <div class="sub">~/Documents/about.rtf · modified just now</div>
+        <p>Hi — I'm <b>Yurii Ilnytskyi</b>, a Computer Science student at the University of Edinburgh.</p>
+        <p>I care about the unglamorous gap between <em>"it ran in the demo"</em> and <em>"it works in production."</em> Most of the things I build start because something annoyed me into building them.</p>
+        <p>Last year I won first place at the Huawei hackathon for an AI terminal. The night after, instead of celebrating, I stayed up reading papers — because I realised I had no idea whether what I built would still hold together next Tuesday. Closing that gap is the work I want to do.</p>
+        <p>Most recently I built <em>Threshold</em> at an accessible-fringe hackathon — a project focused on making the festival more navigable for people with access needs.</p>
+        <div class="tags">
+          <span>python</span><span>html</span><span>css</span><span>javascript</span>
+          <span>typescript</span><span>react</span><span>node</span><span>fastapi</span>
+          <span>postgres</span><span>docker</span><span>git</span><span>linux</span>
+          <span>llm-eval</span>
+        </div>
+        <p style="opacity:.5;font-size:12px;margin-top:24px">— double-tap any icon to explore.</p>
+      </div>`
+  },
  
   terminal: {
     title:"yurii@macbook — -zsh", w:640, h:400,
